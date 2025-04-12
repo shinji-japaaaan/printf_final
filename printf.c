@@ -28,21 +28,20 @@ void        ft_putstr_fd(char *s, int fd)
         }
 }
 
-
 int        ft_prints(char *s)
 {
         if (!s)
-                return (write(1, "(null)", 6));
+                return (write(1, "(null)", 6));//ok?
         ft_putstr_fd(s, 1);
         return (ft_strlen(s));
 }
 
-int        ft_printc(int c)
+int        ft_printc(int c)//ok?
 {
         int        n;
 
         n = write(1, &c, 1);
-        if (0 <= n)
+        if (0 < n)
                 return (1);
         else
                 return (-1);
@@ -133,18 +132,16 @@ char        *ft_uitoa(unsigned int num)
 {
         char        *str;
         int                len;
-        long        num_copy;
 
-        num_copy = num;
-        len = ft_get_digit_count(num_copy);
+        len = ft_get_digit_count(num);
         str = (char *)malloc(sizeof(char) * (len + 1));
         if (!str)
                 return (NULL);
         str[len] = '\0';
         while (len > 0)
         {
-                str[len - 1] = (num_copy % 10) + '0';
-                num_copy /= 10;
+                str[len - 1] = (num % 10) + '0';
+                num /= 10;
                 len--;
         }
         return (str);
@@ -229,7 +226,6 @@ static int ft_get_digit_count_hex_p(unsigned long long n)
     return (count);
 }
 
-
 char *ft_uitoa_hex_p(unsigned long long num)
 {
     char                *hex_str;
@@ -260,7 +256,7 @@ int        ft_printp(unsigned long long p)
         char        *hex_str;
 
         if (p == 0)
-                return (write(1, "(nil)", 5));
+                return (write(1, "(nil)", 5));//ok?
         printed_chars = write(1, "0x", 2);
         hex_str = ft_uitoa_hex_p(p);
         if (!hex_str)
@@ -335,4 +331,23 @@ int        ft_printf(const char *format, ...)
         }
         va_end(args);
         return (printed_chars);
+}
+
+int main(void)
+{
+    char c = 'A';
+    char *str = "Hello, 42!";
+    unsigned int u = 12345;
+    unsigned int hex = 255;
+    void *ptr = (void *)str;
+
+    ft_printf("Character: %c\n", c);
+    ft_printf("String: %s\n", str);
+    ft_printf("Unsigned int: %u\n", u);
+    ft_printf("Hex (lowercase): %x\n", hex);
+    ft_printf("Hex (uppercase): %X\n", hex);
+    ft_printf("Pointer: %p\n", ptr);
+    ft_printf("Percent sign: %%\n");
+
+    return (0);
 }
